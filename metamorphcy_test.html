@@ -1,0 +1,119 @@
+<!-- ==============Fun project===========================================================
+     @name         Metamorphcy_test.html
+     @version      0.1
+     @author       Sacchride 
+     @include *
+     @match        http://*
+     @match        https://*
+     @grant        none
+     @require https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
+-->
+
+<!DOCTYPE HTML>
+
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<head>
+Encrpytion 
+</head>
+<body>
+<p id = "inputTxt" class = "text"> Encryption.
+</p>
+<script type="text/javascript">
+	var dict = {};
+	var prime = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103];
+	var letters = [" ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X","Y","Z"];
+
+	for (var i = 0; i < letters.length; i++) {
+		dict[letters[i]] = prime[i];
+	}
+
+
+	var UserInput = "WATER";
+	var firstEncry = 1;
+	var secondEncry = 1;
+	var splited = UserInput.split("");
+	var preMulti = [];
+
+
+	for (var i = 0; i < splited.length; i++) {
+		preMulti[i]= (dict[splited[i]]);
+		firstEncry = firstEncry * dict[splited[i]];
+	}
+
+
+	var copy = preMulti.slice();
+	var counter = 0;
+	var listOfMin = [];
+
+	while (copy.length !=0){
+		var min = Math.min(...copy);
+		var indexOf = preMulti.indexOf(min);
+		if(listOfMin.includes(min)){
+			var occurance = 0;	
+			for (var i = 0; i < listOfMin.length; i++) {
+				if( listOfMin[i]==min){
+					occurance++;
+				}
+			}
+			var secondCopy = preMulti.slice();
+			while (occurance>=1){
+				var index = secondCopy.indexOf(min);
+				if(occurance!=0){
+					secondCopy[index]=0;
+				}
+				occurance--;
+			}
+			listOfMin[counter]=min;
+			indexOf = secondCopy.indexOf(min);
+			var indexOf2 = copy.indexOf(min);
+
+			secondEncry = secondEncry * (Math.pow(prime[counter],(indexOf+1)));
+			counter++;	
+			copy.splice(indexOf2,1);
+		}
+
+		else{
+			listOfMin[counter]=min;
+			secondEncry = secondEncry * (Math.pow(prime[counter],(indexOf+1)));
+			counter++;
+			var indexOf3 = copy.indexOf(min);
+			copy.splice(indexOf3,1);
+
+
+		}
+	}
+	var deciLength = secondEncry.toString().length;
+	console.log("secondEncry = ", (secondEncry/107));
+	console.log("Final Encryption of the word: ",UserInput,"  =  ", (firstEncry+1+(secondEncry/(Math.pow(10,deciLength))).toFixed(deciLength)));
+	document.getElementById('inputTxt').innerHTML = secondEncry / firstEncry;
+
+
+	// (firstEncry+1+(secondEncry/(Math.pow(10,deciLength))).toFixed(deciLength));
+
+
+</script>
+
+
+<script type="text/javascript">
+/*
+	//Decode
+	var code = document.getElementById('inputTxt');
+	console.log("code = ", code);
+
+	var intCode = Math.floor(parseFloat(code.innerHTML)-1);
+	var deciCode = parseFloat(code.innerHTML) - intCode-1;
+	console.log("intCode = ", intCode);
+	console.log("deciCode = ", deciCode);
+
+	var wholeDeci = deciCode*(Math.pow(10,deciCode.toString().length-2));
+	console.log("wholeDeci = ", wholeDeci);
+
+
+
+
+*/
+</script>
+</body>
+
+</html> 

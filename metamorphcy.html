@@ -1,0 +1,152 @@
+<!-- ==============Fun project===========================================================
+     @name         Metamorphcy_test.html                                                 
+     @version      0.1
+     @author       Sacchride 
+     @include *
+     @match        http://*
+     @match        https://*
+     @grant        none
+     @require https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js
+-->
+
+
+<!DOCTYPE HTML>
+
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<head>
+Encryption 
+</head>
+<body>
+<p id = "inputTxt" class = "text"> Encryption.
+</p>
+<script type="text/javascript">
+
+	// Setting up Global Variables
+
+	var dict = {};
+	var prime = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103];
+	var letters = [" ", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X","Y","Z"];
+
+	// Setting up a dictionary with letters as the key and prime number as the value
+
+	for (var i = 0; i < letters.length; i++) {
+		dict[letters[i]] = prime[i];
+	}
+
+	// Testing string (Note that this only works well with sting length less than 6)
+	var UserInput = "WATER";
+
+	// First encryption
+	var firstEncry = 1;
+
+	// Second encryption
+	var secondEncry = 1;
+
+	// Getting the pure string version of user input
+	var splited = UserInput.split("");
+
+	// Setting up a dictionary to store the converted user input string to prime numbers 
+	// Also firstEncry is being updated with the value of the user string.
+	var preMulti = [];
+	for (var i = 0; i < splited.length; i++) {
+		preMulti[i]= (dict[splited[i]]);
+		firstEncry = firstEncry * dict[splited[i]];
+	}
+
+	// Second step of the encryption algorithm
+	// Generate a copy of the dictionary that has been set up.
+	var copy = preMulti.slice();
+	
+	// Set up a counter for iterating through 
+	var counter = 0;
+
+	// Set up a list of 
+	var listOfMin = [];
+
+
+	// ALgortithm here:
+	// 1) find the minimum prime number in the dictionary 
+	// 2) increase the number of occurrence 
+	// 3) 
+	// 
+	// 
+	// 
+	// 
+	while (copy.length !=0){
+
+		// Step 1:
+		var min = Math.min(...copy);
+		var indexOf = preMulti.indexOf(min);
+		
+		// Step 2:
+		if(listOfMin.includes(min)){
+			var occurance = 0;	
+			for (var i = 0; i < listOfMin.length; i++) {
+				if( listOfMin[i]==min){
+					occurance++;
+				}
+			}
+
+			// Creates a second copy in order to set the number of more than one occurrence to 0, 
+			var secondCopy = preMulti.slice();
+			while (occurance>=1){
+				var index = secondCopy.indexOf(min);
+				if(occurance!=0){
+					secondCopy[index]=0;
+				}
+				occurance--;
+			}
+			listOfMin[counter]=min;
+			indexOf = secondCopy.indexOf(min);
+			var indexOf2 = copy.indexOf(min);
+
+			secondEncry = secondEncry * (Math.pow(prime[counter],(indexOf+1)));
+			counter++;	
+			copy.splice(indexOf2,1);
+		}
+
+		else{
+			listOfMin[counter]=min;
+			secondEncry = secondEncry * (Math.pow(prime[counter],(indexOf+1)));
+			counter++;
+			var indexOf3 = copy.indexOf(min);
+			copy.splice(indexOf3,1);
+
+
+		}
+	}
+	var deciLength = secondEncry.toString().length;
+	console.log("secondEncry = ", secondEncry.toString());
+	console.log("Final Encryption of the word: ",UserInput,"  =  ",(firstEncry.toString(36)+"."+(secondEncry.toString(36))) );
+	document.getElementById('inputTxt').innerHTML = (firstEncry.toString(36)+"."+(secondEncry.toString(36)));
+
+	console.log();
+
+
+</script>
+
+
+<script type="text/javascript">
+
+	//Decryption
+	var code = document.getElementById('inputTxt');
+	console.log("code = ", code);
+	var temp = Double.parseDouble(code.innerHTML);
+	console.log("temp = ", temp);
+	var intCode = Math.floor(temp)-1;
+	var deciCode = temp - intCode-1;
+	console.log("intCode = ", intCode);
+	console.log("deciCode = ", deciCode);
+
+	var wholeDeci = deciCode*(Math.pow(10,deciCode.toString().length-2));
+	console.log("wholeDeci = ", wholeDeci);
+
+
+
+
+
+</script>
+</body>
+
+</html> 
